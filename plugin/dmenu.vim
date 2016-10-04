@@ -58,18 +58,18 @@ function! s:dmenu_buf(cmd)
   call s:dmenu_open(join(files, '\n'), a:cmd)
 endfunction
 
-function! s:dmenu_tag(cmd)
+function! s:dmenu_tag()
   call system('ctags -R .') " TODO dont create tags files
-  let file = system(g:dmenu_ctags . ' | ' . g:dmenu_cmd . ' -p :' . a:cmd)
+  let file = system(g:dmenu_ctags . ' | ' . g:dmenu_cmd . ' -p :tag')
   if !empty(file)
-    execute a:cmd . ' ' . file
+    execute 'tag ' . file
   endif
 endfunction
 
 " commands {{{1
 command! -nargs=1 DmenuFile call s:dmenu_file(<args>)
 command! -nargs=1 DmenuBuf  call s:dmenu_buf(<args>)
-command! -nargs=1 DmenuTag  call s:dmenu_tag(<args>)
+command!          DmenuTag  call s:dmenu_tag()
 
 " }}}
 
