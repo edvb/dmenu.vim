@@ -24,6 +24,10 @@ if !exists('g:dmenu_git_ls')
   let g:dmenu_git_ls= 'git ls-files'
 endif
 
+if !exists('g:dmenu_ctags')
+  let g:dmenu_ctags = 'ctags -f - --sort=no -R . | cut -f 1'
+endif
+
 " functions {{{1
 " return true if vim is in a git repository
 function! s:is_git_repo()
@@ -54,9 +58,18 @@ function! s:dmenu_buf(cmd)
   call s:dmenu_open(join(files, '\n'), a:cmd)
 endfunction
 
+function! s:dmenu_tag(cmd)
+  call system('ctags -R .') " TODO dont create tags files
+  let file = system(g:dmenu_ctags . ' | ' . g:dmenu_cmd . ' -p :' . a:cmd)
+  if !empty(file)
+    execute a:cmd . ' ' . file
+  endif
+endfunction
+
 " commands {{{1
 command! -nargs=1 DmenuFile call s:dmenu_file(<args>)
 command! -nargs=1 DmenuBuf  call s:dmenu_buf(<args>)
+command! -nargs=1 DmenuTag  call s:dmenu_tag(<args>)
 
 " }}}
 
