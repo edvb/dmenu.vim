@@ -12,19 +12,29 @@ command.
 
 	:DmenuBuf "e"
 
+Run the following command to jump to a function or variable using ctags.
+Currently it creates a tags file every time you run it, but hopefully this is
+only temporary and it will simply create tags when needed in memory.
+
+	:DmenuTag
+
 ## Configuration
 
 To change the default dmenu command put the following in your `.vimrc`
 
-	let g:dmenu_cmd = "dmenu -i -l 20"
+	let g:dmenu_cmd = 'dmenu -i -l 20'
 
 To change the default file list command put the following in your `.vimrc`
 
-	let g:dmenu_ls = "find -type f -printf '%P\n' | tail -n +2"
+	let g:dmenu_ls = 'find -type f -printf "%P\n" | tail -n +2'
 
 To change the default git file list command put the following in your `.vimrc`
 
-	let g:dmenu_git_ls= "git ls-files"
+	let g:dmenu_git_ls = 'git ls-files'
+
+To change the default ctags command put the following in your `.vimrc`
+
+	let g:dmenu_ctags = 'ctags -f - --sort=no -R . | cut -f 1'
 
 ## Installation
 
