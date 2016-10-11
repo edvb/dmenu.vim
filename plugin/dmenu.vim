@@ -51,11 +51,14 @@ endfunction
 
 " switch to already loaded buffer with cmd
 function! s:dmenu_buf(cmd)
-  let bufs = range(1, bufnr('$'))               " get open buffers
-  call filter(bufs, 'buflisted(v:val)')         " remove unlisted buffers
+  let bufs = range(1, bufnr('$'))       " get open buffers
+  call filter(bufs, 'buflisted(v:val)') " remove unlisted buffers
+  if bufname('#') != bufname('%') " if there is a previous buffer, move it to top
+    let bufs = ['#'] + bufs
+  endif
   let files = map(copy(bufs), 'bufname(v:val)') " convert numbers to names
-
-  call s:dmenu_open(join(files, '\n'), a:cmd)
+  let files = filter(copy(files), 'v:val !~ bufname("#") || v:key == 0') " only leave previous buffer at top
+  call s:dmenu_open(join(files, '\n'), a:cmd) " convert files list into string for dmenu
 endfunction
 
 function! s:dmenu_tag()
