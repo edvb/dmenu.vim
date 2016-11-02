@@ -37,7 +37,7 @@ endfunction
 
 " launches dmenu with input and opens selection with given vim cmd
 function! s:dmenu_open(input, cmd)
-  let file = system('echo -e "' . a:input . '" | ' . g:dmenu_cmd . ' -p :' . a:cmd)
+  let file = system('echo -ne "' . a:input . '" | ' . g:dmenu_cmd . ' -p :' . a:cmd)
   if !empty(file)
     execute a:cmd . ' ' . file
   endif
